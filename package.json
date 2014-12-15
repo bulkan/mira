@@ -1,0 +1,26 @@
+{
+  "name": "mira",
+  "version": "1.0.0",
+  "description": "mira fractal",
+  "main": "index.js",
+  "repository": "https://github.com/bulkan/mira",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mira",
+    "fractal"
+  ],
+  "author": "Bulkan Evcimen <bulkan@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "color": "^0.7.3",
+    "pixi.js": "^2.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-browserify": "^0.5.0",
+    "gulp-concat": "^2.4.2",
+    "gulp-connect": "^2.2.0"
+  }
+}
