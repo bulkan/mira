@@ -10,17 +10,19 @@ gulp.task('browserify', function(){
       .pipe(gulp.dest('./dist'));
 });
 
+var server;
 
 gulp.task('webserver', function() {
-  connect.server({
+  if (server){
+    return;
+  }
+  server = connect.server({
     port: 9966
   });
 });
 
 gulp.task('watch', function(){
-  gulp.watch('index.js',  ['default']);
+  gulp.watch(['index.js', 'lib/*.js'], ['browserify']);
 });
 
-gulp.task('default', ['browserify', 'watch']);
-
-gulp.task('dev', ['default', 'webserver']);
+gulp.task('dev', ['webserver', 'watch']);
