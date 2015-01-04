@@ -55,8 +55,13 @@ function lineDistance(point1, point2){
 
 var maxDistanceToCenter = lineDistance({x: 0, y: 0}, midPoint);
 var circle;
+var stop = false;
 
 function draw(){
+  if (stop){
+    return;
+  }
+
   conditionsText.setText(util.format(
     "max iteration:%s iteration: %s\na: %s\nb: %s\nx: %s\ny: %s", mira.maxIteration, mira.iteration, mira.a, mira.b, mira.x, mira.y
   ), textFont);
@@ -90,8 +95,14 @@ controllers.push(gui.add(mira, 'x'));
 controllers.push(gui.add(mira, 'y'));
 controllers.push(gui.add(mira, 'maxIteration'));
 
-var restartCtrl = gui.add(mira, 'restart')
+controllers.forEach(function(ctrl){
+  ctrl.onFinishChange(function(){
+    stop = true;
+  });
+});
 
+
+var restartCtrl = gui.add(mira, 'restart')
 
 restartCtrl.onFinishChange(function(){
   graphics.clear();
@@ -102,6 +113,7 @@ restartCtrl.onFinishChange(function(){
   setTimeout(function(){
     mira.restart = false;
     restartCtrl.updateDisplay();
+    stop = false;
     draw();
   }, 100);
 });
