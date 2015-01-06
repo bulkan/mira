@@ -104,7 +104,7 @@ gui.__controllers.forEach(function(ctrl){
 var y = mira.y;
 var x = mira.x;
 
-
+// need to manually force an update for x & y
 yCtrl.onFinishChange(function(){
   y = yCtrl.initialValue;
   x = this.getValue();
@@ -112,14 +112,12 @@ yCtrl.onFinishChange(function(){
   this.updateDisplay();
 });
 
-
 yCtrl.onFinishChange(function(){
   y = this.getValue();
   x = xCtrl.initialValue;
   mira.setXY(x, y);
   this.updateDisplay();
 });
-
 
 var restartCtrl = gui.add(mira, 'restart')
 
@@ -131,8 +129,7 @@ restartCtrl.onChange(function(){
 
   mira.reset();
 
-  mira.x = x;
-  mira.y = y;
+  mira.setXY(x, y);
   setTimeout(function(){
 
     mira.restart = false;
