@@ -1,4 +1,5 @@
 /* global document, requestAnimationFrame */
+/* jshint newcap: false*/
 
 var PIXI = require('pixi.js');
 var Color = require('color');
@@ -16,7 +17,7 @@ document.body.appendChild(renderer.view);
 var stage = new PIXI.Stage();
 var graphics = new PIXI.Graphics();
 
-var textFont = { font: "10px Arial", fill: "white"};
+var textFont = { font: "12px Arial", fill: "white"};
 
 var mira = new Mira(width, height);
 var conditionsText = new PIXI.Text("a: " + mira.a + " b: " + mira.b, textFont);
@@ -62,9 +63,7 @@ function draw(){
     return;
   }
 
-  conditionsText.setText(util.format(
-    "max iteration:%s iteration: %s\na: %s\nb: %s\nx: %s\ny: %s", mira.maxIteration, mira.iteration, mira.a, mira.b, mira.x, mira.y
-  ), textFont);
+  conditionsText.setText(util.format("%s of %s\n\na: %s \t b: %s", mira.iteration, mira.maxIteration, mira.a, mira.b), textFont);
 
   var point = mira.nextIteration();
 
@@ -87,35 +86,60 @@ function draw(){
 }
 
 var gui = new DAT.GUI();
-var controllers = [];
 
-controllers.push(gui.add(mira, 'a'));
-controllers.push(gui.add(mira, 'b'));
-controllers.push(gui.add(mira, 'x'));
-controllers.push(gui.add(mira, 'y'));
-controllers.push(gui.add(mira, 'maxIteration'));
+gui.add(mira, 'a');
+gui.add(mira, 'b');
 
-controllers.forEach(function(ctrl){
-  ctrl.onFinishChange(function(){
+var xCtrl = gui.add(mira, 'x');
+var yCtrl = gui.add(mira, 'y');
+
+gui.add(mira, 'maxIteration');
+
+gui.__controllers.forEach(function(ctrl){
+  ctrl.onChange(function(){
     stop = true;
   });
+});
+
+var y = mira.y;
+var x = mira.x;
+
+
+yCtrl.onFinishChange(function(){
+  y = yCtrl.initialValue;
+  x = this.getValue();
+  mira.setXY(x, y);
+  this.updateDisplay();
+});
+
+
+yCtrl.onFinishChange(function(){
+  y = this.getValue();
+  x = xCtrl.initialValue;
+  mira.setXY(x, y);
+  this.updateDisplay();
 });
 
 
 var restartCtrl = gui.add(mira, 'restart')
 
-restartCtrl.onFinishChange(function(){
+restartCtrl.onChange(function(){
   graphics.clear();
   var cl = Color("#FFCC00");
   graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
+  stop = true;
 
   mira.reset();
+
+  mira.x = x;
+  mira.y = y;
   setTimeout(function(){
+
     mira.restart = false;
     restartCtrl.updateDisplay();
     stop = false;
     draw();
-  }, 100);
+  });
 });
 
 draw();
