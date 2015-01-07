@@ -127,9 +127,8 @@ restartCtrl.onChange(function(){
   graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
   stop = true;
 
-  mira.reset();
-
   mira.setXY(x, y);
+  mira.reset();
   setTimeout(function(){
 
     mira.restart = false;
