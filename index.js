@@ -57,8 +57,11 @@ function lineDistance(point1, point2){
 var maxDistanceToCenter = lineDistance({x: 0, y: 0}, midPoint);
 var stop = false;
 
+// additional options that is not really part of Mira
+// used with dat.gui
 mira.circle = true;
 mira.rectangle = false;
+mira.pixelSize = 2;
 
 function draw(){
   if (stop){
@@ -72,10 +75,10 @@ function draw(){
   var ratio = (lineDistance(point, midPoint) / maxDistanceToCenter);
 
   if (mira.circle) {
-    graphics.drawCircle(point.x, point.y, 2);
+    graphics.drawCircle(point.x, point.y, mira.pixelSize);
   }
   else if (mira.rectangle){
-    graphics.drawRect(point.x, point.y, 13, 13);
+    graphics.drawRect(point.x, point.y, mira.pixelSize, mira.pixelSize);
   }
 
   if(mira.iteration % 500 === 0){
@@ -110,6 +113,7 @@ var pixiController = gui.addFolder('Rendering');
 
 var circleCtrl = pixiController.add(mira, 'circle');
 var rectCtrl = pixiController.add(mira, 'rectangle');
+pixiController.add(mira, 'pixelSize');
 
 // one or the order rendering option needs to be selected
 circleCtrl.onFinishChange(function(){
