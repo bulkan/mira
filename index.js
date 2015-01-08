@@ -55,8 +55,10 @@ function lineDistance(point1, point2){
 }
 
 var maxDistanceToCenter = lineDistance({x: 0, y: 0}, midPoint);
-var circle;
 var stop = false;
+
+mira.circle = true;
+mira.rectangle = false;
 
 function draw(){
   if (stop){
@@ -69,7 +71,12 @@ function draw(){
 
   var ratio = (lineDistance(point, midPoint) / maxDistanceToCenter);
 
-  circle = graphics.drawCircle(point.x, point.y, 2);
+  if (mira.circle) {
+    graphics.drawCircle(point.x, point.y, 2);
+  }
+  else if (mira.rectangle){
+    graphics.drawRect(point.x, point.y, 13, 13);
+  }
 
   if(mira.iteration % 500 === 0){
     cl = cl.saturate(ratio * 1).mix(Color('green'), 0.1);
@@ -87,14 +94,33 @@ function draw(){
 
 var gui = new DAT.GUI();
 
-gui.add(mira, 'a');
-gui.add(mira, 'b');
+var miraFolder = gui.addFolder('Mira');
 
-var xCtrl = gui.add(mira, 'x');
-var yCtrl = gui.add(mira, 'y');
+miraFolder.add(mira, 'a');
+miraFolder.add(mira, 'b');
 
-gui.add(mira, 'maxIteration');
+miraFolder.open();
 
+var xCtrl = miraFolder.add(mira, 'x');
+var yCtrl = miraFolder.add(mira, 'y');
+
+miraFolder.add(mira, 'maxIteration');
+
+var pixiController = gui.addFolder('Rendering');
+
+var circleCtrl = pixiController.add(mira, 'circle');
+var rectCtrl = pixiController.add(mira, 'rectangle');
+
+// one or the order rendering option needs to be selected
+circleCtrl.onFinishChange(function(){
+  rectCtrl.setValue(!this.getValue());
+});
+
+rectCtrl.onFinishChange(function(){
+  circleCtrl.setValue(!this.getValue());
+});
+
+ 
 gui.__controllers.forEach(function(ctrl){
   ctrl.onChange(function(){
     stop = true;
