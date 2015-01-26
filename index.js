@@ -135,21 +135,24 @@ yCtrl.onFinishChange(function(){
   this.updateDisplay();
 });
 
-document.querySelector('#reset-btn').onclick = function(){
-  graphics.clear();
-  var cl = Color("#FFCC00");
-  graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
-  stop = true;
 
-  mira.setXY(x, y);
-  mira.reset();
-  setTimeout(function(){
+document.addEventListener("DOMContentLoaded", function() { 
+  document.querySelector('#reset-btn').onclick = function(){
+    graphics.clear();
+    var cl = Color("#FFCC00");
+    graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
+    stop = true;
 
-    mira.rerun = false;
-    stop = false;
-    draw();
-  });
-};
+    mira.setXY(x, y);
+    mira.reset();
+    setTimeout(function(){
+
+      mira.rerun = false;
+      stop = false;
+      draw();
+    });
+  };
+});
 
 
 draw();

@@ -1,7 +1,7 @@
 mira
 ====
 
-[Mira](http://www.copysense.co.uk/mira.php) [2](http://mathworld.wolfram.com/MiraFractal.html) fractal playground written using;
+[Mira](http://www.copysense.co.uk/mira.php) [fractal](http://mathworld.wolfram.com/MiraFractal.html) playground written using;
 
 * [Browserify](browserify.org)
 * [Pixi.js](http://www.pixijs.com/)
