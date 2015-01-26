@@ -17,7 +17,10 @@ document.body.appendChild(renderer.view);
 var stage = new PIXI.Stage();
 var graphics = new PIXI.Graphics();
 
-var textFont = { font: "12px Arial", fill: "white"};
+var textFont = { 
+  font: "12px Arial",
+  fill: "white"
+};
 
 var mira = new Mira(width, height);
 var conditionsText = new PIXI.Text("a: " + mira.a + " b: " + mira.b, textFont);
@@ -60,7 +63,7 @@ var stop = false;
 // additional options that is not really part of Mira
 // used with dat.gui
 mira.circle = true;
-mira.rectangle = false;
+//mira.rectangle = false;
 mira.pixelSize = 2;
 
 function draw(){
@@ -74,12 +77,7 @@ function draw(){
 
   var ratio = (lineDistance(point, midPoint) / maxDistanceToCenter);
 
-  if (mira.circle) {
-    graphics.drawCircle(point.x, point.y, mira.pixelSize);
-  }
-  else if (mira.rectangle){
-    graphics.drawRect(point.x, point.y, mira.pixelSize, mira.pixelSize);
-  }
+  graphics.drawCircle(point.x, point.y, mira.pixelSize);
 
   if(mira.iteration % 500 === 0){
     cl = cl.saturate(ratio * 1).mix(Color('green'), 0.1);
@@ -92,7 +90,7 @@ function draw(){
     return;
   }
 
-  requestAnimationFrame(draw);
+  return requestAnimationFrame(draw);
 }
 
 var gui = new DAT.GUI();
@@ -111,20 +109,8 @@ miraFolder.add(mira, 'maxIteration');
 
 var pixiController = gui.addFolder('Rendering');
 
-var circleCtrl = pixiController.add(mira, 'circle');
-var rectCtrl = pixiController.add(mira, 'rectangle');
 pixiController.add(mira, 'pixelSize');
 
-// one or the order rendering option needs to be selected
-circleCtrl.onFinishChange(function(){
-  rectCtrl.setValue(!this.getValue());
-});
-
-rectCtrl.onFinishChange(function(){
-  circleCtrl.setValue(!this.getValue());
-});
-
- 
 gui.__controllers.forEach(function(ctrl){
   ctrl.onChange(function(){
     stop = true;
@@ -149,9 +135,7 @@ yCtrl.onFinishChange(function(){
   this.updateDisplay();
 });
 
-var restartCtrl = gui.add(mira, 'restart')
-
-restartCtrl.onChange(function(){
+document.querySelector('#reset-btn').onclick = function(){
   graphics.clear();
   var cl = Color("#FFCC00");
   graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
@@ -161,11 +145,11 @@ restartCtrl.onChange(function(){
   mira.reset();
   setTimeout(function(){
 
-    mira.restart = false;
-    restartCtrl.updateDisplay();
+    mira.rerun = false;
     stop = false;
     draw();
   });
-});
+};
+
 
 draw();

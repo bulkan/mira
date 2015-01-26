@@ -1,16 +1,25 @@
 mira
 ====
 
-[Mira](http://www.copysense.co.uk/mira.php) fractal generator written using;
+[Mira](http://www.copysense.co.uk/mira.php) [2](http://mathworld.wolfram.com/MiraFractal.html) fractal playground written using;
 
 * [Browserify](browserify.org)
-* [Pixi.js](http://www.pixijs.com/) 
+* [Pixi.js](http://www.pixijs.com/)
 * [dat.gui](https://github.com/dataarts/dat.gui)
+
 
 Usage
 =====
 
-* npm install 
+* Go to http://bulkan-evcimen.com/mira
+* Choose the initial conditions for the fractal in the dat.gui controller and pixel size
+* Click reset 
+
+
+Installation
+============
+
+* npm install
 * gulp dev
 * http://localhost:9966
 
