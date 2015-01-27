@@ -27,4 +27,5 @@ Installation
 Screenshots
 ===========
 
+![miragif](http://i.imgur.com/J55EeyV.gif)
 ![mira1](https://raw.github.com/bulkan/mira/master/mira1.png)
