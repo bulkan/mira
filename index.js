@@ -10,7 +10,7 @@ var Mira = require('./lib/mira');
 var width = window.innerWidth;
 var height = window.innerHeight;
 
-var renderer = new PIXI.CanvasRenderer(width, height);
+var renderer = new PIXI.autoDetectRenderer(width, height);
 
 document.body.appendChild(renderer.view);
 
@@ -32,7 +32,7 @@ stage.addChild(conditionsText);
 
 var cl = Color("#FFCC00");
 graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
-graphics.blendMode = PIXI.blendModes.ADD;
+graphics.blendMode = PIXI.blendModes.LIGHTEN;
 
 stage.addChild(graphics);
 
@@ -64,7 +64,7 @@ var stop = false;
 // used with dat.gui
 mira.circle = true;
 //mira.rectangle = false;
-mira.pixelSize = 2;
+mira.pixelSize = 3;
 
 function draw(){
   if (stop){
@@ -77,7 +77,8 @@ function draw(){
 
   var ratio = (lineDistance(point, midPoint) / maxDistanceToCenter);
 
-  graphics.drawCircle(point.x, point.y, mira.pixelSize);
+  graphics.drawRect(point.x, point.y, mira.pixelSize, mira.pixelSize);
+  
 
   if(mira.iteration % 500 === 0){
     cl = cl.saturate(ratio * 1).mix(Color('green'), 0.1);
@@ -111,9 +112,11 @@ var pixiController = gui.addFolder('Rendering');
 
 pixiController.add(mira, 'pixelSize');
 
-gui.__controllers.forEach(function(ctrl){
-  ctrl.onChange(function(){
-    stop = true;
+Object.keys(gui.__folders).forEach(function(folder){
+  gui.__folders[folder].__controllers.forEach(function(ctrl){
+    ctrl.onChange(function(){
+      stop = true;
+    });
   });
 });
 
