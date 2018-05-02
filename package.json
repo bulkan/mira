@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/bulkan/mira",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --mode development"
   },
   "keywords": [
     "mira",
@@ -16,14 +16,14 @@
   "dependencies": {
     "color": "^0.7.3",
     "dat-gui": "^0.5.0",
-    "pixi.js": "^2.1.1"
+    "pixi.js": "^4.7.3"
   },
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "gulp-browserify": "^0.5.0",
-    "gulp-concat": "^2.4.2",
-    "gulp-connect": "^2.2.0",
-    "gulp-out": "0.0.1",
-    "gulp-uglify": "^1.0.2"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.1.2",
+    "webpack-dev-server": "^3.1.3"
   }
 }

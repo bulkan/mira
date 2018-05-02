@@ -1,7 +1,7 @@
 /* global document, requestAnimationFrame */
 /* jshint newcap: false*/
 
-var PIXI = require('pixi.js');
+import * as PIXI from 'pixi.js'
 var Color = require('color');
 var DAT = require('dat-gui');
 var util = require('util');
