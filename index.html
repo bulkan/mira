@@ -1,20 +1,19 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>MIRA</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title><%= htmlWebpackPlugin.options.title %></title>
     </head>
+
     <style>
-        body {
-          margin: 0px;
-          padding: 0px;
-          text-align: center;
-        }
+       * {padding: 0; margin: 0}
         
         #reset-btn {
             width: 54px;
             position: absolute;
             left: 19px;
             top: 105px;
+            z-index: 1000;
         }
     </style>
 
@@ -22,5 +21,4 @@
         <button type="button" id="reset-btn">Rerun</button>
     </body> 
 
-    <script src="dist/bundle.js"></script>
 </html>

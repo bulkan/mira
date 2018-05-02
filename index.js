@@ -2,39 +2,43 @@
 /* jshint newcap: false*/
 
 import * as PIXI from 'pixi.js'
-var Color = require('color');
-var DAT = require('dat-gui');
-var util = require('util');
-var Mira = require('./lib/mira');
+import Color from 'color';
+import DAT from 'dat-gui';
 
-var width = window.innerWidth;
-var height = window.innerHeight;
+import Mira from './lib/mira';
 
-var renderer = new PIXI.autoDetectRenderer(width, height);
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-document.body.appendChild(renderer.view);
+const app = new PIXI.Application(width, height);
+app.renderer.view.style.position = 'absolute';
+app.renderer.view.style.display = 'block';
+app.renderer.autoResize = true;
+app.renderer.resize(window.innerWidth, window.innerHeight);
 
-var stage = new PIXI.Stage();
-var graphics = new PIXI.Graphics();
+document.body.appendChild(app.view);
 
-var textFont = { 
-  font: "12px Arial",
+const graphics = new PIXI.Graphics();
+
+const textFont = { 
+  fontSize: "12px",
+  fontFamily: "Arial",
   fill: "white"
 };
 
-var mira = new Mira(width, height);
-var conditionsText = new PIXI.Text("a: " + mira.a + " b: " + mira.b, textFont);
+const mira = new Mira(width, height);
+const conditionsText = new PIXI.Text("a: " + mira.a + " b: " + mira.b, textFont);
 
 conditionsText.position.x = 20;
 conditionsText.position.y = 30;
 
-stage.addChild(conditionsText);
+app.stage.addChild(conditionsText);
 
 var cl = Color("#FFCC00");
 graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
-graphics.blendMode = PIXI.blendModes.LIGHTEN;
+graphics.blendMode = PIXI.BLEND_MODES.LIGHTEN;
 
-stage.addChild(graphics);
+app.stage.addChild(graphics);
 
 var midX =  width / 2;
 var midY = height / 2;
@@ -66,12 +70,12 @@ mira.circle = true;
 //mira.rectangle = false;
 mira.pixelSize = 3;
 
-function draw(){
-  if (stop){
+function draw() {
+  if (stop) {
     return;
   }
 
-  conditionsText.setText(util.format("%s of %s\n\na: %s \t b: %s", mira.iteration, mira.maxIteration, mira.a, mira.b), textFont);
+  conditionsText.text = `${mira.iteration} of ${mira.maxIteration}\n\na: ${mira.a} \t b: ${mira.b}`;;
 
   var point = mira.nextIteration();
 
@@ -80,12 +84,12 @@ function draw(){
   graphics.drawRect(point.x, point.y, mira.pixelSize, mira.pixelSize);
   
 
-  if(mira.iteration % 500 === 0){
+  if (mira.iteration % 500 === 0){
     cl = cl.saturate(ratio * 1).mix(Color('green'), 0.1);
     graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
   }
 
-  renderer.render(stage);
+  app.render(app.stage);
 
   if (mira.maxIterationReached()){
     return;
