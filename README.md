@@ -3,7 +3,7 @@ mira
 
 [Mira](http://www.copysense.co.uk/mira.php) [fractal](http://mathworld.wolfram.com/MiraFractal.html) playground written using;
 
-* [Browserify](browserify.org)
+* [Parcel](https://parceljs.org/javascript.html)
 * [Pixi.js](http://www.pixijs.com/)
 * [dat.gui](https://github.com/dataarts/dat.gui)
 
@@ -19,9 +19,9 @@ Usage
 Installation
 ============
 
-* npm install
-* gulp dev
-* http://localhost:9966
+* `yarn`
+* `yarn dev`
+* http://localhost:1234
 
 
 Screenshots
