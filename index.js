@@ -31,7 +31,7 @@ conditionsText.position.y = 30;
 stage.addChild(conditionsText);
 
 var cl = Color("#FFCC00");
-graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
+graphics.beginFill(parseInt(cl.hex().replace(/^#/,''), 16));
 graphics.blendMode = PIXI.blendModes.LIGHTEN;
 
 stage.addChild(graphics);
@@ -82,7 +82,7 @@ function draw(){
 
   if(mira.iteration % 500 === 0){
     cl = cl.saturate(ratio * 1).mix(Color('green'), 0.1);
-    graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
+    graphics.beginFill(parseInt(cl.hex().replace(/^#/,''), 16));
   }
 
   renderer.render(stage);
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.querySelector('#reset-btn').onclick = function(){
     graphics.clear();
     var cl = Color("#FFCC00");
-    graphics.beginFill(parseInt(cl.hexString().replace(/^#/,''), 16));
+    graphics.beginFill(parseInt(cl.hex().replace(/^#/,''), 16));
     stop = true;
 
     mira.setXY(x, y);
