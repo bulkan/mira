@@ -10,11 +10,11 @@ var Mira = require('./lib/mira');
 var width = window.innerWidth;
 var height = window.innerHeight;
 
-var renderer = new PIXI.autoDetectRenderer(width, height);
+const app = new PIXI.Application({ width, height });
 
-document.body.appendChild(renderer.view);
+document.body.appendChild(app.view);
 
-var stage = new PIXI.Stage();
+var stage = app.stage;
 var graphics = new PIXI.Graphics();
 
 var textFont = { 
@@ -32,7 +32,7 @@ stage.addChild(conditionsText);
 
 var cl = Color("#FFCC00");
 graphics.beginFill(parseInt(cl.hex().replace(/^#/,''), 16));
-graphics.blendMode = PIXI.blendModes.LIGHTEN;
+graphics.blendMode = PIXI.BLEND_MODES.LIGHTEN;
 
 stage.addChild(graphics);
 
@@ -71,7 +71,7 @@ function draw(){
     return;
   }
 
-  conditionsText.setText(util.format("%s of %s\n\na: %s \t b: %s", mira.iteration, mira.maxIteration, mira.a, mira.b), textFont);
+  conditionsText.text = `${mira.iteration} of ${mira.maxIteration}\n\na: ${mira.a} \t b: ${mira.b}`;
 
   var point = mira.nextIteration();
 
@@ -84,8 +84,6 @@ function draw(){
     cl = cl.saturate(ratio * 1).mix(Color('green'), 0.1);
     graphics.beginFill(parseInt(cl.hex().replace(/^#/,''), 16));
   }
-
-  renderer.render(stage);
 
   if (mira.maxIterationReached()){
     return;
@@ -140,6 +138,8 @@ yCtrl.onFinishChange(function(){
 
 
 document.addEventListener("DOMContentLoaded", function() { 
+  draw();
+
   document.querySelector('#reset-btn').onclick = function(){
     graphics.clear();
     var cl = Color("#FFCC00");
@@ -156,6 +156,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   };
 });
-
-
-draw();
