@@ -16,30 +16,53 @@ const initializer = (sketch) => {
 	let xoff = 0.0;
 	let yoff = 0.0;
 
+
+	let vertexCount = 0;
+	const MAX_VERTEX = 3;
 	
   sketch.setup = () => {
 		div =	sketch.createDiv();
     sketch.createCanvas(width, height);
 		sketch.background('black');
-		sketch.blendMode(sketch.DIFFERENCE);
+		// sketch.blendMode(sketch.DIFFERENCE);
 
-		sketch.noStroke();
+		// sketch.noStroke();
 		sketch.colorMode(sketch.HSB, 255);
 
   }
 	
   sketch.draw = () => {
 		const { x, y } = mira.nextIteration();
+
+		// if (vertexCount === 0) {
+		// 	sketch.noFill();
+		// 	sketch.beginShape(sketch.LINES);
+		// }
 		
-		xoff += 0.1;
-		yoff += 0.1;
+		// xoff += 0.1;
+		// yoff += 0.1;
 
 		// let xNoiseVal = sketch.noise(xoff);
 		// let yNoiseVal = sketch.noise(yoff);
 		
 		sketch.translate(width/2, height/2);
+		sketch.stroke(palette[currentColor]);
 		sketch.fill(palette[currentColor]);
-		sketch.ellipse(x , y , 4, 4);
+
+		// console.log(`vertextCount`, vertexCount);
+
+		// if (vertexCount <= MAX_VERTEX) {
+		// 	sketch.vertex(x , y);
+		// } 
+
+		// if (vertexCount > MAX_VERTEX) {
+		// 	console.log('endShape');
+		// 	vertexCount = 0;
+		// 	sketch.endShape();
+		// }
+
+		sketch.point(x , y , 2, 2);
+		vertexCount = vertexCount + 1;
 
 		if (mira.maxIterationReached() ) {
 			sketch.noLoop();
