@@ -1,11 +1,13 @@
 {
   "name": "mira",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "mira fractal",
   "main": "index.js",
   "repository": "https://github.com/bulkan/mira",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "parcel index.html",
+    "build": "parcel build index.html",
+    "deploy": "yarn build && netlify deploy --prod --dir=dist"
   },
   "keywords": [
     "mira",
@@ -14,16 +16,12 @@
   "author": "Bulkan Evcimen <bulkan@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "color": "^0.7.3",
+    "color": "^3.1.2",
     "dat-gui": "^0.5.0",
-    "pixi.js": "^2.1.1"
+    "nice-color-palettes": "^3.0.0",
+    "p5": "^0.10.2"
   },
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "gulp-browserify": "^0.5.0",
-    "gulp-concat": "^2.4.2",
-    "gulp-connect": "^2.2.0",
-    "gulp-out": "0.0.1",
-    "gulp-uglify": "^1.0.2"
+    "parcel-bundler": "^1.12.4"
   }
 }
