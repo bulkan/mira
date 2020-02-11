@@ -1,10 +1,12 @@
 mira
 ====
 
+The Gumowski-Mira fractal. 
+
 [Mira](http://www.copysense.co.uk/mira.php) [fractal](http://mathworld.wolfram.com/MiraFractal.html) playground written using;
 
 * [Parcel](https://parceljs.org/javascript.html)
-* [Pixi.js](http://www.pixijs.com/)
+* [p5.js](https://p5js.org/)
 * [dat.gui](https://github.com/dataarts/dat.gui)
 
 
