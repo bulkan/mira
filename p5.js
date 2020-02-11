@@ -1,5 +1,5 @@
 const p5 = require('p5');
-const palettes = require('nice-color-palettes');
+const palettes = require('nice-color-palettes/1000');
 const Mira = require('./lib/mira');
 
 const width = window.innerWidth;
@@ -19,7 +19,7 @@ const sketch = (p) => {
 
 	const paletteIndex = randomInt(0, palettes.length - 1);
 	const palette = palettes[paletteIndex];
-	console.log(`Chose palete ${paletteIndex}`, palette);
+	console.log(`Chose palette ${paletteIndex} of 1000`, palette);
 	// const palette = palettes[7];
 
 	let colorIndex = 0;
