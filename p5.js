@@ -1,5 +1,5 @@
 const p5 = require('p5');
-const palettes = require('nice-color-palettes/1000');
+const palettes = require('nice-color-palettes');
 const Mira = require('./lib/mira');
 
 const width = window.innerWidth;
@@ -17,8 +17,10 @@ const sketch = (p) => {
 	mira.x = 12;
 	mira.y = 0;
 
-	// const palette = palettes[randomInt(0, palettes.length - 1)];
-	const palette = palettes[7];
+	const paletteIndex = randomInt(0, palettes.length - 1);
+	const palette = palettes[paletteIndex];
+	console.log(`Chose palete ${paletteIndex}`, palette);
+	// const palette = palettes[7];
 
 	let colorIndex = 0;
 	let xoff = 0.0;
@@ -34,7 +36,7 @@ const sketch = (p) => {
 
 		const saveButton = p.createButton('save');
 		saveButton.position(10, 10);
-		saveButton.mousePressed(() => p.saveCanvas(`${mira.a}-${mira.b}`, 'png'));
+		saveButton.mousePressed(() => p.saveCanvas(`${mira.a}-${mira.b}-${mira.iteration}`, 'png'));
 
 		const runBtn = p.createButton('run');
 		runBtn.position(10 + runBtn.width, 10);
