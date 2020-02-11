@@ -12,9 +12,9 @@ const sketch = (p) => {
 	window.p = p;
 	window.mira = mira;
 
-	mira.a = 0.31;
-	mira.b = 1;
-	mira.x = 12;
+	mira.a = 0.7;
+	mira.b = .9998;
+	mira.x = 15;
 	mira.y = 0;
 
 	const paletteIndex = randomInt(0, palettes.length - 1);
