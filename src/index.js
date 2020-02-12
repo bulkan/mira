@@ -91,17 +91,17 @@ const sketch = p => {
     p.translate(p.windowWidth / 2, p.windowHeight / 2);
     p.stroke(color);
 
-    p.strokeWeight(p.map(xNoiseVal, 0, 1, 1, 10));
+    p.strokeWeight(p.map(xNoiseVal, 0, 1, 1, 20));
     p.point(x, y);
 
-    p.beginShape(p.LINES);
-    p.strokeWeight(0.1);
-    color.setAlpha(50);
-    p.stroke(color);
-    p.vertex(x, y);
-    p.vertex(x + 10, y + 10);
+    // p.beginShape(p.LINES);
+    // p.strokeWeight(0.5);
+    // color.setAlpha(50);
+    // p.stroke(color);
+    // p.vertex(x, y);
+    // p.vertex(x + 10, y + 10);
 
-    p.endShape();
+    // p.endShape();
   };
 
   p.windowResized = () => {
