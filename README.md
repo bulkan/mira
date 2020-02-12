@@ -13,9 +13,10 @@ The Gumowski-Mira fractal.
 Usage
 =====
 
+* Will only work on evergreen browsers
 * Go to http://bulkan-evcimen.com/mira
 * Choose the initial conditions for the fractal in the dat.gui controller and pixel size
-* Click reset 
+* Click 
 
 
 Installation

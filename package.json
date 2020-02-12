@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "parcel index.html",
     "build": "parcel build index.html",
-    "deploy": "yarn build && netlify deploy --prod --dir=dist"
+    "deploy": "yarn build && netlify deploy --prod --dir=dist",
+    "test": "jest src"
   },
   "keywords": [
     "mira",
@@ -18,10 +19,14 @@
   "dependencies": {
     "color": "^3.1.2",
     "dat-gui": "^0.5.0",
+    "jest": "^25.1.0",
     "nice-color-palettes": "^3.0.0",
     "p5": "^0.10.2"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
 }
