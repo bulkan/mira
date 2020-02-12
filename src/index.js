@@ -1,47 +1,45 @@
 const p5 = require("p5");
 const palettes = require("nice-color-palettes/1000");
-const { Mira, mira } = require("./mira");
+const { mira } = require("./mira");
+const { makeGui } = require('./gui');
 
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// const miraGenerator = mira({
-//   a: 0.7,
-//   b: 0.9998,
-//   x: 15,
-//   y: 0,
-//   maxIteration: 10,
-//   scale: 1
-// });
-
-// for (const iteration of miraGenerator()) {
-//   const {
-//     point: { x, y }
-//   } = iteration;
-//   console.log(x, y);
-// }
-
 const sketch = p => {
-  const mira = new Mira(25);
-  window.p = p;
-  window.mira = mira;
-
-  mira.maxIteration = 10000;
-  mira.a = 0.7;
-  mira.b = 0.9998;
-  mira.x = 15;
-  mira.y = 0;
-
   const paletteIndex = randomInt(0, palettes.length - 1);
-  const palette = palettes[paletteIndex];
-  console.log(`Current palette ${paletteIndex} of 1000`, palette);
   // const palette = palettes[7];
+  // const paletteIndex = 96;
+  const palette = Object.assign({}, palettes[paletteIndex]);
+  const paletteLength = Object.values(palette).length;
 
+  p.print(`Current palette ${paletteIndex} of 1000`, Object.values(palette));
+
+  const miraConfig = {
+    a: 0.7,
+    b: 0.9998,
+    x: 15.0,
+    y: 0.0,
+    maxIteration: 10000,
+    scale: 25
+  };
+
+  let miraGenerator = mira(miraConfig);
   let colorIndex = 0;
   let xoff = 0.0;
   let yoff = 0.0;
 
   p.setup = () => {
+    const gui = makeGui(miraConfig, palette);
+
+    Object.keys(gui.__folders).forEach(folder => {
+       gui.__folders[folder].__controllers.forEach(ctrl => {
+        ctrl.onChange(() => {
+          p.noLoop();
+        });
+      });
+    });
+
     p.createCanvas(width, height);
     p.background("black");
 
@@ -51,28 +49,29 @@ const sketch = p => {
     const saveButton = p.createButton("save");
     saveButton.position(10, 10);
     saveButton.mousePressed(() =>
-      p.saveCanvas(`${mira.a}-${mira.b}-${mira.iteration}`, "png")
+      p.saveCanvas(`${miraConfig.a}-${miraConfig.b}`, "png")
     );
 
     const runBtn = p.createButton("run");
-    runBtn.position(10 + runBtn.width, 10);
+    runBtn.position(10 + saveButton.width, 10);
     runBtn.mousePressed(() => {
-      mira.reset();
       p.background("black");
-      sketch.loop();
+      p.loop();
+      miraGenerator = mira(miraConfig);
     });
   };
 
   p.draw = () => {
-    const { x, y } = mira.nextIteration();
+    const mira = miraGenerator.next().value;
 
-    if (mira.maxIterationReached()) {
+    if (!mira) {
       p.noLoop();
       return;
     }
-    console.log(x, y);
 
-    colorIndex = (colorIndex + palette.length - 1) % palette.length;
+    const { current, point: {x, y }} = mira;
+
+    colorIndex = (colorIndex + paletteLength - 1) % paletteLength;
 
     p.noStroke();
     const black = p.color("black");
@@ -81,32 +80,31 @@ const sketch = p => {
     p.rect(10, 30, 100, 100);
 
     p.fill("white");
-    p.text(`${mira.iteration} of ${mira.maxIteration}`, 10, 30, 100, 100);
+    p.text(`${current} of ${miraConfig.maxIteration}`, 10, 30, 100, 100);
 
-    xoff += 0.01;
+    xoff += 0.001;
     yoff += 0.01;
 
     let xNoiseVal = p.noise(xoff);
     let yNoiseVal = p.noise(yoff);
 
-    const color = p.color(palette[colorIndex]);
+    const color = p.color((Object.values(palette)[colorIndex]));
     color.setAlpha(p.map(yNoiseVal, 0, 1, 0, 255));
 
     p.translate(width / 2, height / 2);
     p.stroke(color);
 
     p.strokeWeight(p.map(xNoiseVal, 0, 1, 1, 10));
-    // p.strokeWeight(1);
     p.point(x, y);
 
-    // p.beginShape(p.LINES);
-    // p.strokeWeight(1);
-    // color.setAlpha(50);
-    // p.stroke(color);
-    // p.vertex(x, y);
-    // p.vertex(x + 10, y + 10);
+    p.beginShape(p.LINES);
+    // p.strokeWeight(3);
+    color.setAlpha(5);
+    p.stroke(color);
+    p.vertex(x, y);
+    p.vertex(x + 10, y + 10);
 
-    // p.endShape();
+    p.endShape();
   };
 };
 

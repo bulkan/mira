@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/bulkan/mira",
   "scripts": {
-    "dev": "parcel index.html",
+    "dev": "parcel serve index.html",
     "build": "parcel build index.html",
     "deploy": "now deploy",
     "test": "jest src",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "color": "^3.1.2",
-    "dat-gui": "^0.5.0",
+    "dat.gui": "^0.7.6",
     "jest": "^25.1.0",
     "nice-color-palettes": "^3.0.0",
     "p5": "^0.10.2"
