@@ -3,9 +3,6 @@ const palettes = require("nice-color-palettes/1000");
 const { mira } = require("./mira");
 const { makeGui } = require('./gui');
 
-const width = window.innerWidth;
-const height = window.innerHeight;
-
 const sketch = p => {
   const paletteIndex = randomInt(0, palettes.length - 1);
   // const palette = palettes[7];
@@ -40,7 +37,7 @@ const sketch = p => {
       });
     });
 
-    p.createCanvas(width, height);
+    p.createCanvas(p.windowWidth, p.windowHeight);
     p.background("black");
 
     p.colorMode(p.HSB, 255);
@@ -91,21 +88,26 @@ const sketch = p => {
     const color = p.color((Object.values(palette)[colorIndex]));
     color.setAlpha(p.map(yNoiseVal, 0, 1, 0, 255));
 
-    p.translate(width / 2, height / 2);
+    p.translate(p.windowWidth / 2, p.windowHeight / 2);
     p.stroke(color);
 
     p.strokeWeight(p.map(xNoiseVal, 0, 1, 1, 10));
     p.point(x, y);
 
     p.beginShape(p.LINES);
-    // p.strokeWeight(3);
-    color.setAlpha(5);
+    p.strokeWeight(0.1);
+    color.setAlpha(50);
     p.stroke(color);
     p.vertex(x, y);
     p.vertex(x + 10, y + 10);
 
     p.endShape();
   };
+
+  p.windowResized = () => {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
+    p.background("black");
+  }
 };
 
 const P5 = new p5(sketch);
