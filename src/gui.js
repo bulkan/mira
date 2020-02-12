@@ -64,8 +64,8 @@ const makeGui = (miraConfig, palette) => {
   miraFolder.open();
   miraFolder.add(miraConfig, "a", -10, 10, 0.00001);
   miraFolder.add(miraConfig, "b", -10, 10, 0.00001);
-  miraFolder.add(miraConfig, "x", -20, 20, 0.1);
-  miraFolder.add(miraConfig, "y", -20, 20, 0.1);
+  miraFolder.add(miraConfig, "x", -35.56, 35.56, 0.01);
+  miraFolder.add(miraConfig, "y", -20, 20, 0.01);
   miraFolder.add(miraConfig, "scale", -100, 100, 1);
   
   miraFolder.add(miraConfig, "maxIteration");

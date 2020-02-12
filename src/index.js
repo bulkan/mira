@@ -26,14 +26,18 @@ const sketch = p => {
   let xoff = 0.0;
   let yoff = 0.0;
 
+  const reset = () => {
+    p.background("black");
+    p.loop();
+    miraGenerator = mira(miraConfig);
+  }
+
   p.setup = () => {
     const gui = makeGui(miraConfig, palette);
 
     Object.keys(gui.__folders).forEach(folder => {
        gui.__folders[folder].__controllers.forEach(ctrl => {
-        ctrl.onChange(() => {
-          p.noLoop();
-        });
+        ctrl.onChange(() => reset());
       });
     });
 
@@ -51,11 +55,7 @@ const sketch = p => {
 
     const runBtn = p.createButton("run");
     runBtn.position(10 + saveButton.width, 10);
-    runBtn.mousePressed(() => {
-      p.background("black");
-      p.loop();
-      miraGenerator = mira(miraConfig);
-    });
+    runBtn.mousePressed(() => reset());
   };
 
   p.draw = () => {
@@ -80,7 +80,7 @@ const sketch = p => {
     p.text(`${current} of ${miraConfig.maxIteration}`, 10, 30, 100, 100);
 
     xoff += 0.001;
-    yoff += 0.01;
+    yoff += 0.1;
 
     let xNoiseVal = p.noise(xoff);
     let yNoiseVal = p.noise(yoff);
