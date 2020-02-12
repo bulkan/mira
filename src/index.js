@@ -22,7 +22,7 @@ const height = window.innerHeight;
 // }
 
 const sketch = p => {
-  const mira = new Mira(1);
+  const mira = new Mira(25);
   window.p = p;
   window.mira = mira;
 

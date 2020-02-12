@@ -1,25 +1,12 @@
 function Mira(scale = 10) {
-  // this.a = 0.16;
-  // this.b = 0.9998;
-  // this.x = 0;
-  // this.y = 9;
-
-  this.maxIteration = 2;
-  this.a = 0.7;
-  this.b = 1;
-  this.x = 2;
-  this.y = 0;
-
-  console.log({
-    a: this.a,
-    b: this.b,
-    x: this.x,
-    y: this.y
-  });
+  this.a = 0.16;
+  this.b = 0.9998;
+  this.x = 0;
+  this.y = 9;
 
   this.iteration = 0;
-  // this.maxIteration = 1000;
-  this.scale = 1;
+  this.maxIteration = 1000;
+  this.scale = scale;
 }
 
 
@@ -40,11 +27,11 @@ Mira.prototype.nextIteration = function nextIteration() {
   const prevX = this.x;
 
   this.x = this.b * this.y + fx(this.a, prevX);
-  this.y = -prevX + fx(this.a, this.x);
+this.y = -prevX + fx(this.a, this.x);
 
   return {
-    x: this.x,
-    y: this.y
+    x: this.x * this.scale,
+    y: this.y * this.scale
   };
 };
 
