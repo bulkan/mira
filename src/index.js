@@ -26,7 +26,7 @@ const sketch = p => {
   window.p = p;
   window.mira = mira;
 
-  mira.maxIteration = 10;
+  mira.maxIteration = 10000;
   mira.a = 0.7;
   mira.b = 0.9998;
   mira.x = 15;

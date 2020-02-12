@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "parcel index.html",
     "build": "parcel build index.html",
-    "deploy": "yarn build && netlify deploy --prod --dir=dist",
-    "test": "jest src"
+    "deploy": "now deploy",
+    "test": "jest src",
+    "now-build": "yarn build"
   },
   "keywords": [
     "mira",
