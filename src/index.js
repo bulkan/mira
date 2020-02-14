@@ -2,11 +2,19 @@ const p5 = require("p5");
 const palettes = require("nice-color-palettes/1000");
 const { mira } = require("./mira");
 const { makeGui } = require('./gui');
+const { marshall, unmarshall } = require('./util');
+
+const updateUrl = s => {
+  window.history.pushState(null, '', `?s=${s}`); 
+};
+
+const getConfigFromUrl = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return unmarshall(urlParams.get('s'));
+}
 
 const sketch = p => {
   const paletteIndex = randomInt(0, palettes.length - 1);
-  // const palette = palettes[7];
-  // const paletteIndex = 96;
   const palette = Object.assign({}, palettes[paletteIndex]);
   const paletteLength = Object.values(palette).length;
 
@@ -26,13 +34,13 @@ const sketch = p => {
     max: 5
   };
   
-  const guiConfig = {
+  let guiConfig = {
     mira: miraConfig,
     point: pointConfig,
     palette
   };
 
-  let miraGenerator = mira(miraConfig);
+  let miraGenerator;
   let colorIndex = 0;
   let xoff = 0.0;
   let yoff = 0.0;
@@ -40,10 +48,18 @@ const sketch = p => {
   const reset = () => {
     p.background("black");
     p.loop();
-    miraGenerator = mira(miraConfig);
+    updateUrl(marshall(guiConfig));
+    miraGenerator = mira(guiConfig.mira);
   }
 
   p.setup = () => {
+    const configFromUrl = getConfigFromUrl();;
+
+    if (configFromUrl) {
+      guiConfig = configFromUrl;
+    }
+    
+    miraGenerator = mira(miraConfig);
     const gui = makeGui(guiConfig);
 
     Object.keys(gui.__folders).forEach(folder => {
@@ -67,7 +83,7 @@ const sketch = p => {
       p.fill("white");
       p.text(`a=${a}, b=${b}`, 10, 50, 100, 100);
       p.text(`x=${x}, y=${y}, scale=${scale}`, 10, 60, 100, 100);
-      p.saveCanvas(`${a}-${b}`, "png")
+      p.saveCanvas(`${marshall(miraConfig)}`, "png")
     });
 
     const runBtn = p.createButton("run");
