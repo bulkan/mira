@@ -13,12 +13,23 @@ const sketch = p => {
   p.print(`Current palette ${paletteIndex} of 1000`, Object.values(palette));
 
   const miraConfig = {
-    a: 0.7,
-    b: 0.9998,
-    x: 15.0,
+    a: -0.41,
+    b: 1,
+    x: 12.0,
     y: 0.0,
     maxIteration: 10000,
     scale: 25
+  };
+
+  const pointConfig = {
+    min: 1,
+    max: 5
+  };
+  
+  const guiConfig = {
+    mira: miraConfig,
+    point: pointConfig,
+    palette
   };
 
   let miraGenerator = mira(miraConfig);
@@ -33,7 +44,7 @@ const sketch = p => {
   }
 
   p.setup = () => {
-    const gui = makeGui(miraConfig, palette);
+    const gui = makeGui(guiConfig);
 
     Object.keys(gui.__folders).forEach(folder => {
        gui.__folders[folder].__controllers.forEach(ctrl => {
@@ -49,9 +60,15 @@ const sketch = p => {
 
     const saveButton = p.createButton("save");
     saveButton.position(10, 10);
-    saveButton.mousePressed(() =>
-      p.saveCanvas(`${miraConfig.a}-${miraConfig.b}`, "png")
-    );
+    saveButton.mousePressed(() => {
+      const { a, b, x, y, scale } = miraConfig;
+      p.pop();
+      p.noStroke();
+      p.fill("white");
+      p.text(`a=${a}, b=${b}`, 10, 50, 100, 100);
+      p.text(`x=${x}, y=${y}, scale=${scale}`, 10, 60, 100, 100);
+      p.saveCanvas(`${a}-${b}`, "png")
+    });
 
     const runBtn = p.createButton("run");
     runBtn.position(10 + saveButton.width, 10);
@@ -66,6 +83,7 @@ const sketch = p => {
       return;
     }
 
+    p.push();
     const { current, point: {x, y }} = mira;
 
     colorIndex = (colorIndex + paletteLength - 1) % paletteLength;
@@ -91,7 +109,7 @@ const sketch = p => {
     p.translate(p.windowWidth / 2, p.windowHeight / 2);
     p.stroke(color);
 
-    p.strokeWeight(p.map(xNoiseVal, 0, 1, 1, 20));
+    p.strokeWeight(p.map(xNoiseVal, 0, 1, pointConfig.min, pointConfig.max));
     p.point(x, y);
 
     // p.beginShape(p.LINES);

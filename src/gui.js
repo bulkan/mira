@@ -1,6 +1,6 @@
 const DAT = require("dat.gui");
 
-const presetJSON = {
+const presets = {
   preset: 'Default',
   remembered: {
     Defaut: {},
@@ -57,29 +57,34 @@ const presetJSON = {
   }
 };
 
-const makeGui = (miraConfig, palette) => {
-  const gui = new DAT.GUI({ load: presetJSON });
+const makeGui = (config) => {
+  const gui = new DAT.GUI({ load: presets });
+  gui.useLocalStorage = true;
 
-  const miraFolder = gui.addFolder("Mira");
+  const miraFolder = gui.addFolder("Mira function params");
   miraFolder.open();
-  miraFolder.add(miraConfig, "a", -10, 10, 0.00001);
-  miraFolder.add(miraConfig, "b", -10, 10, 0.00001);
-  miraFolder.add(miraConfig, "x", -35.56, 35.56, 0.01);
-  miraFolder.add(miraConfig, "y", -20, 20, 0.01);
-  miraFolder.add(miraConfig, "scale", -100, 100, 1);
+  miraFolder.add(config.mira, "a", -10, 10, 0.00001);
+  miraFolder.add(config.mira, "b", -10, 10, 0.00001);
+  miraFolder.add(config.mira, "x", -35.56, 35.56, 0.01);
+  miraFolder.add(config.mira, "y", -20, 20, 0.01);
+  miraFolder.add(config.mira, "scale", -100, 100, 1);
   
-  miraFolder.add(miraConfig, "maxIteration");
+  miraFolder.add(config.mira, "maxIteration");
 
-  gui.remember(miraConfig);
-
+  const pixels = gui.addFolder("Point size");
+  pixels.add(config.point, "min", 0, 10);
+  pixels.add(config.point, "max", 0, 10);
+  
+  
   const colorFolder = gui.addFolder("Palette");
-  colorFolder.addColor(palette, 0);
-  colorFolder.addColor(palette, 1);
-  colorFolder.addColor(palette, 2);
-  colorFolder.addColor(palette, 3);
-  colorFolder.addColor(palette, 4);
-
-  // gui.remember(palette);
+  colorFolder.addColor(config.palette, 0);
+  colorFolder.addColor(config.palette, 1);
+  colorFolder.addColor(config.palette, 2);
+  colorFolder.addColor(config.palette, 3);
+  colorFolder.addColor(config.palette, 4);
+  colorFolder.open();
+  
+  gui.remember(config);
   return gui;
 }
 
