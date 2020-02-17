@@ -15,7 +15,8 @@ const getConfigFromUrl = () => {
 
 const sketch = p => {
   const paletteIndex = randomInt(0, palettes.length - 1);
-  const palette = Object.assign({}, palettes[paletteIndex]);
+  let background = palettes[paletteIndex].pop();
+  let palette = Object.assign({}, palettes[paletteIndex]);
   const paletteLength = Object.values(palette).length;
 
   p.print(`Current palette ${paletteIndex} of 1000`, Object.values(palette));
@@ -46,7 +47,7 @@ const sketch = p => {
   let yoff = 0.0;
 
   const reset = () => {
-    p.background("black");
+    p.background(background);
     p.loop();
     updateUrl(marshall(guiConfig));
     miraGenerator = mira(guiConfig.mira);
@@ -57,9 +58,11 @@ const sketch = p => {
 
     if (configFromUrl) {
       guiConfig = configFromUrl;
+      palette = guiConfig.palette;
+      background = palette[0];
     }
     
-    miraGenerator = mira(miraConfig);
+    miraGenerator = mira(guiConfig.mira);
     const gui = makeGui(guiConfig);
 
     Object.keys(gui.__folders).forEach(folder => {
@@ -69,7 +72,7 @@ const sketch = p => {
     });
 
     p.createCanvas(p.windowWidth, p.windowHeight);
-    p.background("black");
+    p.background(background);
 
     p.colorMode(p.HSB, 255);
     p.textSize(10);
@@ -83,7 +86,7 @@ const sketch = p => {
       p.fill("white");
       p.text(`a=${a}, b=${b}`, 10, 50, 100, 100);
       p.text(`x=${x}, y=${y}, scale=${scale}`, 10, 60, 100, 100);
-      p.saveCanvas(`${marshall(miraConfig)}`, "png")
+      p.saveCanvas(`${marshall(miraConfig)}`, "png");
     });
 
     const runBtn = p.createButton("run");
@@ -105,9 +108,7 @@ const sketch = p => {
     colorIndex = (colorIndex + paletteLength - 1) % paletteLength;
 
     p.noStroke();
-    const black = p.color("black");
-    black.setAlpha(255);
-    p.fill("black");
+    p.fill(background);
     p.rect(10, 30, 100, 100);
 
     p.fill("white");
@@ -140,7 +141,7 @@ const sketch = p => {
 
   p.windowResized = () => {
     p.resizeCanvas(p.windowWidth, p.windowHeight);
-    p.background("black");
+    p.background(background);
   }
 };
 

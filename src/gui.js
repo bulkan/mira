@@ -2,7 +2,6 @@ const DAT = require("dat.gui");
 
 const makeGui = (config) => {
   const gui = new DAT.GUI();
-  // gui.useLocalStorage = true;
 
   const miraFolder = gui.addFolder("Mira function params");
   miraFolder.open();
@@ -24,7 +23,6 @@ const makeGui = (config) => {
   colorFolder.addColor(config.palette, 1);
   colorFolder.addColor(config.palette, 2);
   colorFolder.addColor(config.palette, 3);
-  colorFolder.addColor(config.palette, 4);
   colorFolder.open();
   
   return gui;
