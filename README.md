@@ -14,7 +14,7 @@ Usage
 =====
 
 * Will only work on evergreen browsers
-* Go to http://bulkan-evcimen.com/mira
+* Go to https://mira.bulkan.dev
 * Choose the initial conditions for the fractal in the dat.gui controller and pixel size
 * Click 
 
